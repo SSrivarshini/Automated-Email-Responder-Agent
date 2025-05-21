@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Classification Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        textarea {
+            width: 100%;
+            height: 80px;
+        }
+        .submit-btn, .download-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .submit-btn:hover, .download-btn:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+</head>
+<body>
+    <h2>Classification Results</h2>
+
+    <form action="/submit_feedback/{{ filename }}" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>Email Text</th>
+                    <th>Predicted Label</th>
+                    <th>AI Response</th>
+                    <th>Refine Response</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row['text'] }}</td>
+                    <td>{{ row['predicted_label'] }}</td>
+                    <td>{{ row['generated_response'] }}</td>
+                    <td>
+                        <textarea name="edited_response">{{ row['generated_response'] }}</textarea>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit" class="submit-btn">Submit Feedback & Save</button>
+    </form>
+
+    <a href="/download/{{ filename }}"><button class="download-btn">Download Final CSV</button></a>
+</body>
+</html>
